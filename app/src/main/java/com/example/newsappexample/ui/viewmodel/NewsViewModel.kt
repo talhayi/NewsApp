@@ -20,6 +20,9 @@ class NewsViewModel @Inject constructor(
     val allNews: MutableLiveData<Result<NewsResponse>> = MutableLiveData()
     var newsPage = 1
 
+    val searchNews: MutableLiveData<Result<NewsResponse>> = MutableLiveData()
+    var searchNewsPage = 1
+
     fun getAllNews(category: String){
         CoroutineScope(Dispatchers.Main).launch {
             allNews.value = Result.Loading
@@ -28,7 +31,25 @@ class NewsViewModel @Inject constructor(
         }
     }
 
+    fun getSearchNews(searchQuery: String){
+        CoroutineScope(Dispatchers.Main).launch {
+            searchNews.value = Result.Loading
+            val response = newsRepository.searchNews(searchQuery, newsPage)
+            searchNews.value = handleSearchNewsResponse(response)
+        }
+    }
+
     private fun handleNewsResponse(response: Response<NewsResponse>): Result<NewsResponse>{
+        if (response.isSuccessful){
+            response.body()?.let {resultResponse->
+
+                return Result.Success(resultResponse)
+            }
+        }
+        return Result.Error(response.message())
+    }
+
+    private fun handleSearchNewsResponse(response: Response<NewsResponse>): Result<NewsResponse>{
         if (response.isSuccessful){
             response.body()?.let {resultResponse->
 

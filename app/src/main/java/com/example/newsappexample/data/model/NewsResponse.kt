@@ -2,6 +2,7 @@ package com.example.newsappexample.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.io.Serializable
 
 data class NewsResponse(
 	val totalResults: Int? = null,
@@ -20,7 +21,7 @@ data class ArticlesItem(
 	val title: String? = null,
 	val url: String? = null,
 	val content: String? = null
-)
+): Serializable
 
 data class Source(
 	val name: String? = null,
