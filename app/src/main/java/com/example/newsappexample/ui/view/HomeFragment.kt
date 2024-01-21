@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.newsappexample.R
 import com.example.newsappexample.databinding.FragmentHomeBinding
 import com.example.newsappexample.ui.adapter.NewsAdapter
 import com.example.newsappexample.ui.viewmodel.NewsViewModel
@@ -32,6 +34,14 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         onClickChipButton()
         setupRecyclerView()
+
+        newsAdapter.setOnItemClickListener {
+            val bundle = Bundle().apply {
+                putSerializable("article", it)
+            }
+            findNavController().navigate(R.id.action_homeFragment_to_detailFragment, bundle)
+        }
+
         viewModel.allNews.observe(viewLifecycleOwner){newsResponse->
             when(newsResponse){
                 is Result.Success->{

@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.newsappexample.R
 import com.example.newsappexample.databinding.FragmentSearchBinding
 import com.example.newsappexample.ui.adapter.NewsAdapter
 import com.example.newsappexample.ui.viewmodel.NewsViewModel
@@ -32,6 +34,13 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
         searchView()
+
+        newsAdapter.setOnItemClickListener {
+            val bundle = Bundle().apply {
+                putSerializable("article", it)
+            }
+            findNavController().navigate(R.id.action_searchFragment_to_detailFragment, bundle)
+        }
         viewModel.searchNews.observe(viewLifecycleOwner){newsResponse->
             when(newsResponse){
                 is Result.Success->{
