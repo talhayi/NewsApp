@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.newsappexample.ui.fragment.HomeFragment"
+        android:name="com.example.newsappexample.ui.view.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -20,12 +20,12 @@
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
-        android:name="com.example.newsappexample.ui.fragment.DetailFragment"
+        android:name="com.example.newsappexample.ui.view.DetailFragment"
         android:label="fragment_detail"
         tools:layout="@layout/fragment_detail" />
     <fragment
         android:id="@+id/favoritesFragment"
-        android:name="com.example.newsappexample.ui.fragment.FavoritesFragment"
+        android:name="com.example.newsappexample.ui.view.FavoritesFragment"
         android:label="fragment_favorites"
         tools:layout="@layout/fragment_favorites" >
         <action
@@ -38,7 +38,7 @@
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.example.newsappexample.ui.fragment.SearchFragment"
+        android:name="com.example.newsappexample.ui.view.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" >
         <action
