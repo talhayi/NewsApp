@@ -31,24 +31,34 @@ class FavoritesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
+        onItemClick()
+        onItemDeleteClick(view)
+        favoriteNewsObserve()
+    }
+
+    private fun favoriteNewsObserve(){
+        viewModel.getFavoriteNews().observe(viewLifecycleOwner){news->
+            newsAdapter.differ.submitList(news)
+        }
+    }
+
+    private fun onItemClick(){
         newsAdapter.setOnItemClickListener {
             val bundle = Bundle().apply {
-                putSerializable("article", it)
+                putSerializable(getString(R.string.article), it)
             }
             findNavController().navigate(R.id.action_favoritesFragment_to_detailFragment, bundle)
         }
+    }
 
-        viewModel.getFavoriteNews().observe(viewLifecycleOwner){news->
-            newsAdapter.differ.submitList(news)
-
-        }
+    private fun onItemDeleteClick(view: View){
         newsAdapter.setOnFavoriteButtonClickListener {news->
             viewModel.deleteFavoriteNews(news)
-            Snackbar.make(view,"News deleted successfully", Snackbar.LENGTH_SHORT).apply {
-                setAction("Undo"){
+            Snackbar.make(view, getString(R.string.news_deleted_successfully), Snackbar.LENGTH_SHORT).apply {
+                setAction(getString(R.string.undo)){
                     viewModel.favorite(news)
                 }
-            } .show()
+            }.show()
         }
     }
 

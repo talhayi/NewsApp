@@ -13,7 +13,11 @@
     <string name="science">SCIENCE</string>
     <string name="sports">SPORTS</string>
     <string name="technology">TECHNOLOGY</string>
-    <string name="ticaret_bakanl_nca_haz_rlanan">Ticaret Bakanlığınca hazırlanan İkinci El Motorlu Kara Taşıtlarının Ticareti Hakkında Yönetmelikte Değişiklik Yapılmasına Dair Yönetmelik" Resmi Gazete'de yayımlanarak yürürlüğe girdi.
-Mevcut mevzuata göre, ikinci el motorlu kara taşıtı ticaretiyle iştigal edilebilmesi için yetki belgesi sahibi olunması gerekirken düzenlemeyle yetki belgesinin iptaline ilişkin hususlar belirlendi.
-Yönetmelik değişikliğiyle, ilk tescil motorlu kara taşıtı ticareti faaliyetinde bulunan yetkili bayilerin, stoklarında bulunmasına rağmen taşıt satışından kaçınmaları, taşıtın üretici veya distribütör </string>
+    <string name="description">description</string>
+    <string name="title">title</string>
+    <string name="author">WEBTEKNO</string>
+    <string name="article">article</string>
+    <string name="news_saved_successfully">News saved successfully</string>
+    <string name="news_deleted_successfully">News deleted successfully</string>
+    <string name="undo">Undo</string>
 </resources>

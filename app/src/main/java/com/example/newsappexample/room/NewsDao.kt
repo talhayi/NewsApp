@@ -10,12 +10,11 @@ import com.example.newsappexample.data.model.ArticlesItem
 
 @Dao
 interface NewsDao {
-    //eklemek istediğimiz article varsa çakışma olmaması için
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(articlesItem: ArticlesItem): Long // neden long dönüyoruz?
+    suspend fun insert(articlesItem: ArticlesItem): Long
 
     @Query("SELECT * FROM ARTICLES")
-    fun getAllNews(): LiveData<List<ArticlesItem>> //List<ArticlesItem> yerine NewsResponse dönmeyi dene //Livedata olmadan dene
+    fun getAllNews(): LiveData<List<ArticlesItem>>
 
     @Delete
     suspend fun deleteNews(articlesItem: ArticlesItem)

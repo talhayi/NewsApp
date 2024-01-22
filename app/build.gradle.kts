@@ -47,6 +47,7 @@ dependencies {
     val hilt_version = "2.48.1"
     val retrofit_version = "2.9.0"
     val room_version = "2.6.1"
+    val paging_version = "3.2.1"
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
@@ -77,4 +78,6 @@ dependencies {
     implementation("androidx.room:room-ktx:$room_version")
     //Glide
     implementation("com.github.bumptech.glide:glide:4.13.2")
+    //Paging
+    implementation("androidx.paging:paging-runtime-ktx:$paging_version")
 }

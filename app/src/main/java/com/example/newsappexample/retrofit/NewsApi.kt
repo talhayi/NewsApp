@@ -12,7 +12,7 @@ interface NewsApi {
     @GET("v2/top-headlines")
     suspend fun getAllNews(
         @Query("category") category: String,
-        @Query("page") pageNumber: Int = 1,
+        @Query("page") pageNumber: Int,
         @Query("apiKey") apiKey: String = API_KEY,
         @Query("country") country: String = "us"
     ): Response<NewsResponse>
@@ -20,7 +20,7 @@ interface NewsApi {
     @GET("v2/everything")
     suspend fun searchNews(
         @Query("q") searchQuery: String,
-        @Query("page") pageNumber: Int = 1,
+        @Query("page") pageNumber: Int,
         @Query("apiKey") apiKey: String = API_KEY
     ): Response<NewsResponse>
 }

@@ -6,15 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
-import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.newsappexample.R
 import com.example.newsappexample.databinding.FragmentSearchBinding
-import com.example.newsappexample.ui.adapter.NewsAdapter
+import com.example.newsappexample.ui.adapter.NewsPagingAdapter
 import com.example.newsappexample.ui.viewmodel.NewsViewModel
-import com.example.newsappexample.util.Result
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
@@ -25,7 +26,7 @@ import kotlinx.coroutines.launch
 class SearchFragment : Fragment() {
     private lateinit var binding: FragmentSearchBinding
     private val viewModel: NewsViewModel by viewModels()
-    private lateinit var newsAdapter: NewsAdapter
+    private lateinit var newsPagingAdapter: NewsPagingAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,28 +39,44 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
         searchView()
+        searchNewsObserve()
+        onItemClick()
+        onFavoriteClick(view)
+    }
 
-        newsAdapter.setOnItemClickListener {
+    private fun onItemClick(){
+        newsPagingAdapter.setOnItemClickListener {
             val bundle = Bundle().apply {
-                putSerializable("article", it)
+                putSerializable(getString(R.string.article), it)
             }
             findNavController().navigate(R.id.action_searchFragment_to_detailFragment, bundle)
         }
-        viewModel.searchNews.observe(viewLifecycleOwner){newsResponse->
-            when(newsResponse){
-                is Result.Success->{
-                    binding.paginationProgressBar.visibility = View.INVISIBLE //TODO extansions'a çevir
-                    newsResponse.data.let {
-                        newsAdapter.differ.submitList(newsResponse.data.articles)
+    }
+
+    private fun onFavoriteClick(view: View){
+        newsPagingAdapter.setOnFavoriteButtonClickListener {
+            viewModel.favorite(it)
+            Snackbar.make(view, getString(R.string.news_saved_successfully), Snackbar.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun searchNewsObserve() {
+        binding.apply {
+            with(viewModel) {
+                searchNews.observe(viewLifecycleOwner) { searchNews ->
+                    lifecycleScope.launch {
+                        newsPagingAdapter.submitData(searchNews)
                     }
-                }
-                is Result.Error->{
-                    newsResponse.message.let { message->
-                        Toast.makeText(requireContext(),"An error occurred $message", Toast.LENGTH_SHORT).show()
+                    newsPagingAdapter.addLoadStateListener { loadState ->
+                        if (loadState.refresh is LoadState.Loading ||
+                            loadState.append is LoadState.Loading
+                        ) {
+                            paginationProgressBar.visibility = View.VISIBLE
+                        } else {
+                            paginationProgressBar.visibility = View.GONE
+                        }
+
                     }
-                }
-                is Result.Loading-> {
-                    binding.paginationProgressBar.visibility = View.VISIBLE
                 }
             }
         }
@@ -90,9 +107,9 @@ class SearchFragment : Fragment() {
         })
     }
     private fun setupRecyclerView(){
-        newsAdapter = NewsAdapter()
+        newsPagingAdapter = NewsPagingAdapter()
         binding.searchRecyclerView.apply {
-            adapter = newsAdapter
+            adapter = newsPagingAdapter
             layoutManager = LinearLayoutManager(requireContext())
         }
     }

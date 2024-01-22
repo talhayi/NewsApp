@@ -1,76 +1,60 @@
 package com.example.newsappexample.ui.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.example.newsappexample.data.model.ArticlesItem
-import com.example.newsappexample.data.model.NewsResponse
-import com.example.newsappexample.data.repository.NewsRepository
+import com.example.newsappexample.domain.FavoriteUseCase
+import com.example.newsappexample.domain.NewsUseCase
+import com.example.newsappexample.domain.SearchUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import com.example.newsappexample.util.Result
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import retrofit2.Response
+import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 
 @HiltViewModel
 class NewsViewModel @Inject constructor(
-    private val newsRepository: NewsRepository
+    private val newsUseCase: NewsUseCase,
+    private val searchUseCase: SearchUseCase,
+    private val favoriteUseCase: FavoriteUseCase,
 ): ViewModel() {
 
-    val allNews: MutableLiveData<Result<NewsResponse>> = MutableLiveData()
-    var newsPage = 1
+    private val _allNews: MutableLiveData<PagingData<ArticlesItem>> = MutableLiveData()
+    val allNews: LiveData<PagingData<ArticlesItem>> = _allNews
 
-    val searchNews: MutableLiveData<Result<NewsResponse>> = MutableLiveData()
-    var searchNewsPage = 1
+    private val _searchNews: MutableLiveData<PagingData<ArticlesItem>> = MutableLiveData()
+    val searchNews: LiveData<PagingData<ArticlesItem>> = _searchNews
 
     fun getAllNews(category: String){
-        CoroutineScope(Dispatchers.Main).launch {
-            allNews.value = Result.Loading
-            val response = newsRepository.getAllNews(category, newsPage)
-            allNews.value = handleNewsResponse(response)
+        viewModelScope.launch {
+            newsUseCase(category).cachedIn(this).collectLatest {
+                _allNews.value = it
+            }
         }
     }
 
     fun getSearchNews(searchQuery: String){
-        CoroutineScope(Dispatchers.Main).launch {
-            searchNews.value = Result.Loading
-            val response = newsRepository.searchNews(searchQuery, newsPage)
-            searchNews.value = handleSearchNewsResponse(response)
-        }
-    }
-
-    private fun handleNewsResponse(response: Response<NewsResponse>): Result<NewsResponse>{
-        if (response.isSuccessful){
-            response.body()?.let {resultResponse->
-
-                return Result.Success(resultResponse)
+        viewModelScope.launch {
+            searchUseCase(searchQuery).cachedIn(this).collectLatest {
+                _searchNews.value = it
             }
         }
-        return Result.Error(response.message())
-    }
-
-    private fun handleSearchNewsResponse(response: Response<NewsResponse>): Result<NewsResponse>{
-        if (response.isSuccessful){
-            response.body()?.let {resultResponse->
-
-                return Result.Success(resultResponse)
-            }
-        }
-        return Result.Error(response.message())
     }
 
     fun favorite (articlesItem: ArticlesItem){
-        CoroutineScope(Dispatchers.Main).launch {
-            newsRepository.favorite(articlesItem)
+        viewModelScope.launch {
+            favoriteUseCase.favorite(articlesItem)
         }
     }
-
-    fun getFavoriteNews () =  newsRepository.getFavoriteNews()
+    fun getFavoriteNews() =
+        favoriteUseCase.getFavoriteNews()
 
     fun deleteFavoriteNews(articlesItem: ArticlesItem){
-        CoroutineScope(Dispatchers.Main).launch {
-            newsRepository.deleteFavoriteNews(articlesItem)
+        viewModelScope.launch {
+            favoriteUseCase.deleteFavoriteNews(articlesItem)
         }
     }
 }
