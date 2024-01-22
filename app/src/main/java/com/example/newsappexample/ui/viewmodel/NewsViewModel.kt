@@ -2,6 +2,7 @@ package com.example.newsappexample.ui.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.newsappexample.data.model.ArticlesItem
 import com.example.newsappexample.data.model.NewsResponse
 import com.example.newsappexample.data.repository.NewsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -57,5 +58,19 @@ class NewsViewModel @Inject constructor(
             }
         }
         return Result.Error(response.message())
+    }
+
+    fun favorite (articlesItem: ArticlesItem){
+        CoroutineScope(Dispatchers.Main).launch {
+            newsRepository.favorite(articlesItem)
+        }
+    }
+
+    fun getFavoriteNews () =  newsRepository.getFavoriteNews()
+
+    fun deleteFavoriteNews(articlesItem: ArticlesItem){
+        CoroutineScope(Dispatchers.Main).launch {
+            newsRepository.deleteFavoriteNews(articlesItem)
+        }
     }
 }

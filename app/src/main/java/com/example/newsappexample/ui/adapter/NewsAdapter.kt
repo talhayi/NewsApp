@@ -1,5 +1,7 @@
 package com.example.newsappexample.ui.adapter
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -10,13 +12,10 @@ import com.example.newsappexample.R
 import com.example.newsappexample.databinding.NewsItemLayoutBinding
 import com.example.newsappexample.data.model.ArticlesItem
 
-class NewsAdapter(): RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
+class NewsAdapter: RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
 
     private var onItemClickListener: ((ArticlesItem) -> Unit)? = null
-    fun setOnItemClickListener(listener: (ArticlesItem) ->Unit){
-        onItemClickListener = listener
-    }
-
+    private var onFavoriteButtonClickListener: ((ArticlesItem) -> Unit)? = null
     inner class NewsViewHolder(var binding: NewsItemLayoutBinding):RecyclerView.ViewHolder(binding.root)
 
     private val differCallBack = object : DiffUtil.ItemCallback<ArticlesItem>(){
@@ -48,8 +47,18 @@ class NewsAdapter(): RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
             titleTextView.text = news.title
             descriptionTextView.text = news.description
             root.setOnClickListener{
-                onItemClickListener?.let { it(news) }
+               onItemClickListener?.let { it(news) }
+            }
+            favoriteButton.setOnClickListener {
+                onFavoriteButtonClickListener?.let { it(news)}
             }
         }
+    }
+
+    fun setOnItemClickListener(listener: (ArticlesItem) ->Unit, ){
+        onItemClickListener = listener
+    }
+    fun setOnFavoriteButtonClickListener(listener: (ArticlesItem) -> Unit) {
+        onFavoriteButtonClickListener = listener
     }
 }

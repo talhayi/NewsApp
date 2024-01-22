@@ -16,6 +16,10 @@ import com.example.newsappexample.ui.adapter.NewsAdapter
 import com.example.newsappexample.ui.viewmodel.NewsViewModel
 import com.example.newsappexample.util.Result
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
@@ -61,6 +65,7 @@ class SearchFragment : Fragment() {
         }
     }
     private fun searchView() {
+        var job: Job? = null
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
                 p0?.let {
@@ -70,11 +75,14 @@ class SearchFragment : Fragment() {
                 }
                 return true
             }
-
             override fun onQueryTextChange(p0: String?): Boolean {
                 p0?.let {
-                    if (it.isNotEmpty()) {
-                        viewModel.getSearchNews(it)
+                    job?.cancel()
+                    job = MainScope().launch {
+                        delay(1000L)
+                        if (it.isNotEmpty()) {
+                            viewModel.getSearchNews(it)
+                        }
                     }
                 }
                 return true

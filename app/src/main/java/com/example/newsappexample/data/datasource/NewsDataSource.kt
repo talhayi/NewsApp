@@ -1,5 +1,6 @@
 package com.example.newsappexample.data.datasource
 
+import com.example.newsappexample.data.model.ArticlesItem
 import com.example.newsappexample.data.model.NewsResponse
 import com.example.newsappexample.retrofit.NewsApi
 import com.example.newsappexample.room.NewsDao
@@ -21,4 +22,10 @@ class NewsDataSource(
         withContext(Dispatchers.IO){
             return@withContext newsApi.searchNews(searchQuery, pageNumber)
         }
+
+    suspend fun favorite(articlesItem: ArticlesItem) = newsDao.insert(articlesItem)
+
+    fun getFavoriteNews() = newsDao.getAllNews()
+
+    suspend fun deleteFavoriteNews(articlesItem: ArticlesItem) = newsDao.deleteNews(articlesItem)
 }

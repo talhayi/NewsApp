@@ -15,6 +15,7 @@ import com.example.newsappexample.ui.adapter.NewsAdapter
 import com.example.newsappexample.ui.viewmodel.NewsViewModel
 import com.example.newsappexample.util.Result
 import com.google.android.material.chip.Chip
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -34,6 +35,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         onClickChipButton()
         setupRecyclerView()
+        allNews()
 
         newsAdapter.setOnItemClickListener {
             val bundle = Bundle().apply {
@@ -41,7 +43,13 @@ class HomeFragment : Fragment() {
             }
             findNavController().navigate(R.id.action_homeFragment_to_detailFragment, bundle)
         }
+        newsAdapter.setOnFavoriteButtonClickListener {
+            viewModel.favorite(it)
+            Snackbar.make(view,"News saved successfully", Snackbar.LENGTH_SHORT).show()
+        }
+    }
 
+    private fun allNews(){
         viewModel.allNews.observe(viewLifecycleOwner){newsResponse->
             when(newsResponse){
                 is Result.Success->{
@@ -59,10 +67,9 @@ class HomeFragment : Fragment() {
                     binding.paginationProgressBar.visibility = View.VISIBLE
                 }
             }
-
-
         }
     }
+
     private fun onClickChipButton() {
         val chipGroup = binding.chipGroup
         var lastClickedChipIndex = 0
@@ -85,7 +92,6 @@ class HomeFragment : Fragment() {
                 chip.isChecked = true
             }
         }
-        // İlk açılışta 0. index çalışsın
         viewModel.getAllNews("")
     }
 
