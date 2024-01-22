@@ -12,7 +12,7 @@ import com.example.newsappexample.R
 import com.example.newsappexample.databinding.FragmentFavoritesBinding
 import com.example.newsappexample.ui.adapter.NewsAdapter
 import com.example.newsappexample.ui.viewmodel.NewsViewModel
-import com.google.android.material.snackbar.Snackbar
+import com.example.newsappexample.util.showSnackbarWithAction
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -54,11 +54,9 @@ class FavoritesFragment : Fragment() {
     private fun onItemDeleteClick(view: View){
         newsAdapter.setOnFavoriteButtonClickListener {news->
             viewModel.deleteFavoriteNews(news)
-            Snackbar.make(view, getString(R.string.news_deleted_successfully), Snackbar.LENGTH_SHORT).apply {
-                setAction(getString(R.string.undo)){
-                    viewModel.favorite(news)
-                }
-            }.show()
+            showSnackbarWithAction(view, getString(R.string.news_deleted_successfully),getString(R.string.undo)){
+                viewModel.favorite(news)
+            }
         }
     }
 

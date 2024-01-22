@@ -15,6 +15,10 @@ import com.example.newsappexample.R
 import com.example.newsappexample.databinding.FragmentSearchBinding
 import com.example.newsappexample.ui.adapter.NewsPagingAdapter
 import com.example.newsappexample.ui.viewmodel.NewsViewModel
+import com.example.newsappexample.util.hide
+import com.example.newsappexample.util.observe
+import com.example.newsappexample.util.show
+import com.example.newsappexample.util.showSnackBar
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
@@ -56,14 +60,14 @@ class SearchFragment : Fragment() {
     private fun onFavoriteClick(view: View){
         newsPagingAdapter.setOnFavoriteButtonClickListener {
             viewModel.favorite(it)
-            Snackbar.make(view, getString(R.string.news_saved_successfully), Snackbar.LENGTH_SHORT).show()
+            showSnackBar(view, getString(R.string.news_saved_successfully))
         }
     }
 
     private fun searchNewsObserve() {
         binding.apply {
             with(viewModel) {
-                searchNews.observe(viewLifecycleOwner) { searchNews ->
+                observe(searchNews){ searchNews ->
                     lifecycleScope.launch {
                         newsPagingAdapter.submitData(searchNews)
                     }
@@ -71,9 +75,9 @@ class SearchFragment : Fragment() {
                         if (loadState.refresh is LoadState.Loading ||
                             loadState.append is LoadState.Loading
                         ) {
-                            paginationProgressBar.visibility = View.VISIBLE
+                            paginationProgressBar.show()
                         } else {
-                            paginationProgressBar.visibility = View.GONE
+                            paginationProgressBar.hide()
                         }
 
                     }
