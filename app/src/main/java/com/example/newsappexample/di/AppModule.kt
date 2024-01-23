@@ -39,7 +39,7 @@ object AppModule {
     @Provides
     @Singleton
     fun provideNewsDao(@ApplicationContext context: Context): NewsDao{
-        val db = Room.databaseBuilder(context, NewsDatabase::class.java,"news.sqlite").build()
+        val db = Room.databaseBuilder(context, NewsDatabase::class.java,"news.sqlite").fallbackToDestructiveMigration().build()
         return db.getNewsDao()
     }
 }
