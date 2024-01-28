@@ -37,8 +37,11 @@ class NewsDataSource(
         ).flow
     }
 
-    suspend fun favorite(articlesItem: ArticlesItem) = newsDao.insert(articlesItem)
-
+    suspend fun favorite(articlesItem: ArticlesItem, url: String) {
+        if(newsDao.countByUrl(url) == 0){
+            newsDao.insert(articlesItem)
+        }
+    }
     fun getFavoriteNews() = newsDao.getAllNews()
 
     suspend fun deleteFavoriteNews(articlesItem: ArticlesItem) = newsDao.deleteNews(articlesItem)

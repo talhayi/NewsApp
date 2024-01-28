@@ -44,9 +44,9 @@ class NewsViewModel @Inject constructor(
         }
     }
 
-    fun favorite (articlesItem: ArticlesItem){
+    fun favorite (articlesItem: ArticlesItem, url: String){
         viewModelScope.launch {
-            favoriteUseCase.favorite(articlesItem)
+            favoriteUseCase.favorite(articlesItem, url)
         }
     }
     fun getFavoriteNews() =

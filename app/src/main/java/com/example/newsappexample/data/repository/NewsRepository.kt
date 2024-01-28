@@ -17,7 +17,7 @@ class NewsRepository(
     fun searchNews(searchQuery: String):Flow<PagingData<ArticlesItem>> =
         newsDataSource.searchNews(searchQuery)
 
-    suspend fun favorite(articlesItem: ArticlesItem) = newsDataSource.favorite(articlesItem)
+    suspend fun favorite(articlesItem: ArticlesItem, url: String) = newsDataSource.favorite(articlesItem, url)
 
     fun getFavoriteNews() = newsDataSource.getFavoriteNews()
 

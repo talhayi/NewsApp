@@ -7,7 +7,7 @@ import javax.inject.Inject
 class FavoriteUseCase @Inject constructor(
     private val newsRepository: NewsRepository
 ) {
-    suspend fun favorite(articlesItem: ArticlesItem) = newsRepository.favorite(articlesItem)
+    suspend fun favorite(articlesItem: ArticlesItem, url: String) = newsRepository.favorite(articlesItem, url)
 
     fun getFavoriteNews() = newsRepository.getFavoriteNews()
 

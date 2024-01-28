@@ -54,8 +54,9 @@ class FavoritesFragment : Fragment() {
     private fun onItemDeleteClick(view: View){
         newsAdapter.setOnFavoriteButtonClickListener {news->
             viewModel.deleteFavoriteNews(news)
+            val url = news.url
             showSnackbarWithAction(view, getString(R.string.news_deleted_successfully),getString(R.string.undo)){
-                viewModel.favorite(news)
+                viewModel.favorite(news, url!!)
             }
         }
     }

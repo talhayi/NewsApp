@@ -38,7 +38,10 @@ class NewsPagingAdapter: PagingDataAdapter<ArticlesItem, NewsPagingAdapter.NewsP
                 onItemClickListener?.let { it(news) }
             }
             favoriteButton.setOnClickListener {
-                onFavoriteButtonClickListener?.let { it(news)}
+                onFavoriteButtonClickListener?.let {
+                    it(news)
+                    favoriteButton.setColorFilter(root.context.getColor(R.color.black))
+                }
             }
         }
     }

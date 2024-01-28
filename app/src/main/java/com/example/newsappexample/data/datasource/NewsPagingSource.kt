@@ -26,6 +26,7 @@ class NewsPagingSource(
                 newsApi.searchNews(searchQuery!!, page)
             }
             val articles: List<ArticlesItem> = data.body()?.articles!!.filterNotNull()
+                //.map { it.copy(isFavorite = true) }
             LoadResult.Page(
                 data = articles,
                 prevKey = if (page==1) null else page -1,

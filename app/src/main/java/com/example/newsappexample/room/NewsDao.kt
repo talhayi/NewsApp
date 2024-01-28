@@ -12,6 +12,8 @@ import com.example.newsappexample.data.model.ArticlesItem
 interface NewsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(articlesItem: ArticlesItem): Long
+    @Query("SELECT COUNT(*) FROM ARTICLES WHERE url = :url")
+    suspend fun countByUrl(url: String): Int
 
     @Query("SELECT * FROM ARTICLES")
     fun getAllNews(): LiveData<List<ArticlesItem>>

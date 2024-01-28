@@ -20,7 +20,8 @@ data class ArticlesItem(
 	val source: Source? = null,
 	val title: String? = null,
 	val url: String? = null,
-	val content: String? = null
+	val content: String? = null,
+	var isFavorite: Boolean? = false,
 ): Serializable
 
 data class Source(

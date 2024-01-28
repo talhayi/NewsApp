@@ -58,8 +58,9 @@ class SearchFragment : Fragment() {
     }
 
     private fun onFavoriteClick(view: View){
-        newsPagingAdapter.setOnFavoriteButtonClickListener {
-            viewModel.favorite(it)
+        newsPagingAdapter.setOnFavoriteButtonClickListener {news->
+            val url = news.url
+            viewModel.favorite(news, url!!)
             showSnackBar(view, getString(R.string.news_saved_successfully))
         }
     }
