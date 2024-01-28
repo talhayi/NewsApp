@@ -3,6 +3,7 @@ package com.example.newsappexample.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingData
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -14,6 +15,7 @@ import com.example.newsappexample.databinding.NewsItemLayoutBinding
 class NewsPagingAdapter: PagingDataAdapter<ArticlesItem, NewsPagingAdapter.NewsPagingViewHolder>(differCallBack)  {
     private var onItemClickListener: ((ArticlesItem) -> Unit)? = null
     private var onFavoriteButtonClickListener: ((ArticlesItem) -> Unit)? = null
+    val emptyPagingData = PagingData.empty<ArticlesItem>()
     inner class NewsPagingViewHolder(var binding: NewsItemLayoutBinding): RecyclerView.ViewHolder(binding.root)
     companion object{
         val differCallBack = object : DiffUtil.ItemCallback<ArticlesItem>(){

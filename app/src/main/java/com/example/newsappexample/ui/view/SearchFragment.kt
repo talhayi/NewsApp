@@ -19,7 +19,6 @@ import com.example.newsappexample.util.hide
 import com.example.newsappexample.util.observe
 import com.example.newsappexample.util.show
 import com.example.newsappexample.util.showSnackBar
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
@@ -70,6 +69,7 @@ class SearchFragment : Fragment() {
             with(viewModel) {
                 observe(searchNews){ searchNews ->
                     lifecycleScope.launch {
+                        newsPagingAdapter.submitData(newsPagingAdapter.emptyPagingData)
                         newsPagingAdapter.submitData(searchNews)
                     }
                     newsPagingAdapter.addLoadStateListener { loadState ->

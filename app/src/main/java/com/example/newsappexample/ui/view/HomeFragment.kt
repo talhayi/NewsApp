@@ -37,8 +37,8 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        onClickChipButton()
         setupRecyclerView()
+        onClickChipButton()
         allNewsObserve()
         onItemClick()
         onFavoriteClick(view)
@@ -66,6 +66,7 @@ class HomeFragment : Fragment() {
             with(viewModel) {
                 observe(allNews) { allNews ->
                     lifecycleScope.launch {
+                        newsPagingAdapter.submitData(newsPagingAdapter.emptyPagingData)
                         newsPagingAdapter.submitData(allNews)
                     }
                     newsPagingAdapter.addLoadStateListener { loadState ->
