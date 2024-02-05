@@ -8,6 +8,8 @@ import com.example.newsappexample.retrofit.ApiUtils
 import com.example.newsappexample.retrofit.NewsApi
 import com.example.newsappexample.room.NewsDao
 import com.example.newsappexample.room.NewsDatabase
+import com.example.newsappexample.ui.adapter.NewsAdapter
+import com.example.newsappexample.ui.adapter.NewsPagingAdapter
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -41,5 +43,17 @@ object AppModule {
     fun provideNewsDao(@ApplicationContext context: Context): NewsDao{
         val db = Room.databaseBuilder(context, NewsDatabase::class.java,"news.sqlite").fallbackToDestructiveMigration().build()
         return db.getNewsDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideNewsAdapter(): NewsAdapter{
+        return NewsAdapter()
+    }
+
+    @Provides
+    @Singleton
+    fun provideNewsPagingAdapter(): NewsPagingAdapter {
+        return NewsPagingAdapter()
     }
 }

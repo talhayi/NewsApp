@@ -1,7 +1,7 @@
 package com.example.newsappexample.retrofit
 
+import com.example.newsappexample.data.model.news.NewsResponse
 import com.example.newsappexample.retrofit.ApiUtils.Companion.API_KEY
-import com.example.newsappexample.data.model.NewsResponse
 
 import retrofit2.Response
 import retrofit2.http.GET

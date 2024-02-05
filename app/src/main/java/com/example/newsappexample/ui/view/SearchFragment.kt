@@ -20,16 +20,21 @@ import com.example.newsappexample.util.observe
 import com.example.newsappexample.util.show
 import com.example.newsappexample.util.showSnackBar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
     private lateinit var binding: FragmentSearchBinding
     private val viewModel: NewsViewModel by viewModels()
-    private lateinit var newsPagingAdapter: NewsPagingAdapter
+
+    @Inject
+    lateinit var newsPagingAdapter: NewsPagingAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -45,6 +50,9 @@ class SearchFragment : Fragment() {
         searchNewsObserve()
         onItemClick()
         onFavoriteClick(view)
+        CoroutineScope(Dispatchers.Main).launch {
+            newsPagingAdapter.submitData(newsPagingAdapter.emptyPagingData)
+        }
     }
 
     private fun onItemClick(){
@@ -80,7 +88,6 @@ class SearchFragment : Fragment() {
                         } else {
                             paginationProgressBar.hide()
                         }
-
                     }
                 }
             }
@@ -112,7 +119,6 @@ class SearchFragment : Fragment() {
         })
     }
     private fun setupRecyclerView(){
-        newsPagingAdapter = NewsPagingAdapter()
         binding.searchRecyclerView.apply {
             adapter = newsPagingAdapter
             layoutManager = LinearLayoutManager(requireContext())

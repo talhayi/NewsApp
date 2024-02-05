@@ -1,7 +1,5 @@
 package com.example.newsappexample.ui.adapter
 
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -9,8 +7,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.newsappexample.R
+import com.example.newsappexample.data.model.news.ArticlesItem
 import com.example.newsappexample.databinding.NewsItemLayoutBinding
-import com.example.newsappexample.data.model.ArticlesItem
 
 class NewsAdapter: RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
 
@@ -54,7 +52,7 @@ class NewsAdapter: RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
                     it(news)
                 }
             }
-            favoriteButton.setColorFilter(root.context.getColor(R.color.black))
+            favoriteButton.setColorFilter(root.context.getColor(R.color.red))
         }
     }
 

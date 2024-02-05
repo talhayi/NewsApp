@@ -1,6 +1,6 @@
 package com.example.newsappexample.domain
 
-import com.example.newsappexample.data.model.ArticlesItem
+import com.example.newsappexample.data.model.news.ArticlesItem
 import com.example.newsappexample.data.repository.NewsRepository
 import javax.inject.Inject
 

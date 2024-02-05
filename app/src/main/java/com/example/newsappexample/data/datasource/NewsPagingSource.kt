@@ -2,7 +2,7 @@ package com.example.newsappexample.data.datasource
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.newsappexample.data.model.ArticlesItem
+import com.example.newsappexample.data.model.news.ArticlesItem
 import com.example.newsappexample.retrofit.NewsApi
 
 class NewsPagingSource(
@@ -26,7 +26,6 @@ class NewsPagingSource(
                 newsApi.searchNews(searchQuery!!, page)
             }
             val articles: List<ArticlesItem> = data.body()?.articles!!.filterNotNull()
-                //.map { it.copy(isFavorite = true) }
             LoadResult.Page(
                 data = articles,
                 prevKey = if (page==1) null else page -1,

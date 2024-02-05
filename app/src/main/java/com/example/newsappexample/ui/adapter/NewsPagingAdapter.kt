@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.newsappexample.R
-import com.example.newsappexample.data.model.ArticlesItem
+import com.example.newsappexample.data.model.news.ArticlesItem
 import com.example.newsappexample.databinding.NewsItemLayoutBinding
 
 class NewsPagingAdapter: PagingDataAdapter<ArticlesItem, NewsPagingAdapter.NewsPagingViewHolder>(differCallBack)  {
@@ -42,7 +42,7 @@ class NewsPagingAdapter: PagingDataAdapter<ArticlesItem, NewsPagingAdapter.NewsP
             favoriteButton.setOnClickListener {
                 onFavoriteButtonClickListener?.let {
                     it(news)
-                    favoriteButton.setColorFilter(root.context.getColor(R.color.black))
+                    favoriteButton.setColorFilter(root.context.getColor(R.color.red))
                 }
             }
         }

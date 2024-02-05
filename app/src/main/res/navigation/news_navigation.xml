@@ -25,7 +25,7 @@
         tools:layout="@layout/fragment_detail" >
         <argument
             android:name="article"
-            app:argType="com.example.newsappexample.data.model.ArticlesItem" />
+            app:argType="com.example.newsappexample.data.model.news.ArticlesItem" />
     </fragment>
     <fragment
         android:id="@+id/favoritesFragment"

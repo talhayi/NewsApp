@@ -2,10 +2,8 @@ package com.example.newsappexample.data.repository
 
 import androidx.paging.PagingData
 import com.example.newsappexample.data.datasource.NewsDataSource
-import com.example.newsappexample.data.model.ArticlesItem
-import com.example.newsappexample.data.model.NewsResponse
+import com.example.newsappexample.data.model.news.ArticlesItem
 import kotlinx.coroutines.flow.Flow
-import retrofit2.Response
 
 class NewsRepository(
     private val newsDataSource : NewsDataSource

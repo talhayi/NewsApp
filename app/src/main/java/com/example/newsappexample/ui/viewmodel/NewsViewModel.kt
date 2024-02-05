@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.example.newsappexample.data.model.ArticlesItem
+import com.example.newsappexample.data.model.news.ArticlesItem
 import com.example.newsappexample.domain.FavoriteUseCase
 import com.example.newsappexample.domain.NewsUseCase
 import com.example.newsappexample.domain.SearchUseCase

@@ -3,7 +3,7 @@ package com.example.newsappexample.room
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.example.newsappexample.data.model.ArticlesItem
+import com.example.newsappexample.data.model.news.ArticlesItem
 
 @Database(entities = [ArticlesItem::class], version = 2)
 @TypeConverters(Converters::class)

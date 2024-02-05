@@ -14,12 +14,14 @@ import com.example.newsappexample.ui.adapter.NewsAdapter
 import com.example.newsappexample.ui.viewmodel.NewsViewModel
 import com.example.newsappexample.util.showSnackbarWithAction
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class FavoritesFragment : Fragment() {
     private lateinit var binding: FragmentFavoritesBinding
-    private lateinit var newsAdapter: NewsAdapter
     private val viewModel: NewsViewModel by viewModels()
+    @Inject
+    lateinit var newsAdapter: NewsAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -62,7 +64,6 @@ class FavoritesFragment : Fragment() {
     }
 
     private fun setupRecyclerView(){
-        newsAdapter = NewsAdapter()
         binding.favoriteRecyclerView.apply {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(requireContext())

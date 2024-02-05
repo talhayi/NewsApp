@@ -21,12 +21,14 @@ import com.example.newsappexample.util.showSnackBar
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private val viewModel: NewsViewModel by viewModels()
-    private lateinit var newsPagingAdapter: NewsPagingAdapter
+    @Inject
+    lateinit var newsPagingAdapter: NewsPagingAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -108,7 +110,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupRecyclerView(){
-        newsPagingAdapter = NewsPagingAdapter()
         binding.homeRecyclerView.apply {
             adapter = newsPagingAdapter
             layoutManager = LinearLayoutManager(requireContext())
